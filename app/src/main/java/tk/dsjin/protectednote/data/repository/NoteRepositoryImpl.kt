@@ -10,7 +10,7 @@ import java.util.*
 class NoteRepositoryImpl(private val noteDao : NoteDao) : NoteRepository {
     override fun loadAllNotes(): LiveData<List<NoteEntity>> = noteDao.loadAllNotes()
 
-    override fun loadNote(id: Int): LiveData<NoteEntity> = noteDao.loadNote(id)
+    override fun loadNote(id: Int): NoteEntity = noteDao.loadNote(id)
 
     override fun loadNotesWithLimit(limit: Int, offset: Int): LiveData<List<NoteEntity>> = noteDao.loadNotesWithLimit(limit, offset)
 
@@ -26,7 +26,7 @@ class NoteRepositoryImpl(private val noteDao : NoteDao) : NoteRepository {
         return noteDao.insertNote(mappedNote)
     }
 
-    override suspend fun updateNote(noteData: NoteModel) {
+    override suspend fun updateNote(noteData: NoteModel): Int {
         val mappedNote = NoteEntity().apply {
             this.id = noteData.id
             this.title = noteData.title
@@ -34,10 +34,10 @@ class NoteRepositoryImpl(private val noteDao : NoteDao) : NoteRepository {
             this.isProtected = noteData.isProtected
             this.createdAt = noteData.createdAt
         }
-        noteDao.updateNote(mappedNote)
+        return noteDao.updateNote(mappedNote)
     }
 
-    override suspend fun preDeleteNote(noteData: NoteModel)  {
+    override suspend fun preDeleteNote(noteData: NoteModel): Int  {
         val mappedNote = NoteEntity().apply {
             this.id = noteData.id
             this.title = noteData.title
@@ -47,13 +47,13 @@ class NoteRepositoryImpl(private val noteDao : NoteDao) : NoteRepository {
             this.isDeleted = true
             this.deletedAt = Date()
         }
-        noteDao.updateNote(mappedNote)
+        return noteDao.updateNote(mappedNote)
     }
 
-    override suspend fun deleteNote(id : Int) {
+    override suspend fun deleteNote(id : Int): Int {
         val note = NoteEntity().apply {
             this.id = id
         }
-        noteDao.deleteNote(note)
+        return noteDao.deleteNote(note)
     }
 }

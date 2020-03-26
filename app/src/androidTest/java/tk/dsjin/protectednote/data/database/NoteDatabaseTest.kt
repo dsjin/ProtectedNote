@@ -53,9 +53,7 @@ class NoteDatabaseTest {
     fun noteDatabase_writeNewNote_noteAddToDatabase() = runBlocking{
         val newNote = addNote()
         val getNote = noteRepo.loadNote(newNote.id)
-        getNote.observeOnce {
-            assertThat(it.id, equalTo(newNote.id))
-        }
+        assertThat(getNote.id, equalTo(newNote.id))
     }
 
     @Test
@@ -66,9 +64,7 @@ class NoteDatabaseTest {
         }
         noteRepo.updateNote(newNote)
         val getNote = noteRepo.loadNote(newNote.id)
-        getNote.observeOnce {
-            assertThat(newNote.id, equalTo(it.id))
-        }
+        assertThat(newNote.id, equalTo(getNote.id))
     }
 
     @Test
@@ -79,9 +75,7 @@ class NoteDatabaseTest {
         }
         noteRepo.preDeleteNote(newNote)
         val getNote = noteRepo.loadNote(newNote.id)
-        getNote.observeOnce {
-            assertThat(newNote.isDeleted, equalTo(it.isDeleted))
-        }
+        assertThat(newNote.isDeleted, equalTo(getNote.isDeleted))
     }
 
     @Test
@@ -89,9 +83,7 @@ class NoteDatabaseTest {
         val newNote = addNote()
         noteRepo.deleteNote(newNote.id)
         val getNote = noteRepo.loadNote(newNote.id)
-        getNote.observeOnce {
-            assertThat(it, `is`(nullValue()))
-        }
+        assertThat(getNote, `is`(nullValue()))
     }
 
     @Test

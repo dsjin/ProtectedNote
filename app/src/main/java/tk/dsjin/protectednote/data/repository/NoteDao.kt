@@ -12,7 +12,7 @@ interface NoteDao {
     fun loadAllNotes(): LiveData<List<NoteEntity>>
 
     @Query(value = "select * from notes where id = :id")
-    fun loadNote(id: Int): LiveData<NoteEntity>
+    fun loadNote(id: Int): NoteEntity
 
     @Query(value = "select * from notes limit :limit offset :offset")
     fun loadNotesWithLimit(limit: Int, offset : Int): LiveData<List<NoteEntity>>
@@ -24,8 +24,8 @@ interface NoteDao {
     suspend fun insertNote(noteData: NoteEntity) : Long
 
     @Update
-    suspend fun updateNote(noteData: NoteEntity)
+    suspend fun updateNote(noteData: NoteEntity) : Int
 
     @Delete
-    suspend fun deleteNote(noteData: NoteEntity)
+    suspend fun deleteNote(noteData: NoteEntity) : Int
 }

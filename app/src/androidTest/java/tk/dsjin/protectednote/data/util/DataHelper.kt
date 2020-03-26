@@ -12,6 +12,7 @@ class DataHelper {
                 "Title",
                 "Detail",
                 false,
+                "",
                 nowDate,
                 nowDate,
                 false,

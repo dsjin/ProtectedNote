@@ -8,6 +8,7 @@ data class NoteModel (
     var title : String,
     var detail : String?,
     var isProtected : Boolean,
+    val encryptedPassword : String?,
     var createdAt : Date,
     var updatedAt : Date,
     var isDeleted : Boolean,
